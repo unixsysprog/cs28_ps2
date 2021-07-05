@@ -1,0 +1,45 @@
+Design Document for tarc
+-----------------------------------------------------------
+Code by: William Gottschalk
+Date: 2/24/2018
+
+-----------------------------------------------------------
+
+Purpose:
+tarc will recursively walk through a directory and write file information 
+and (sometimes) contents to a specified archive. This library exposes the 
+tar_it function and the pad_file function. 
+
+Ouline:
+
+The main function will parsing command line args looking for an archive file 
+and source directory or file.
+
+main will invoke tar_it on the source file. tar_it writes meta data of the 
+source file via tar_header and writes the contents via tar_file (if the file 
+type is supported). A global BLOCKS_WRITTEN variable is maintained to determine
+how many padding blocks need to be written once the tar_it file has returned.
+
+Layering:
+
+* main 
+    * tar_it
+        * lstat
+        * tar_header -> writes meta data to buffer
+           * checksum -> calculates the checksum of the file 
+           * increment_block_count
+           * write(2)
+        * tar_file -> writes file contents
+            * read(2) & write(2) (if not symlink or directory)
+            * increment_block_count
+        * tar_it (if file is directory)
+    * pad_file
+
+
+File Structure:
+main.c - main entry point into the app, checks CLI args and calculates
+         tar_it and pad_file
+
+tarc.c - defines tar_it, tar_header, tar_file, and pad_file. Also includes
+         helper functions.
+tarc.h - defines various tar header sizes and offsets as well as filetypes

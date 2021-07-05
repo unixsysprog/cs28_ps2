@@ -1,0 +1,23 @@
+
+README for Assignment 2
+
+  Student: William Gottschalk
+  Date: 2/24/2018
+
+Summary:
+
+  This submission contains the files:
+
+    Makefile    -- the makefile
+    Plan        -- a description of the design and operation of my code
+    typescript  -- a sample run
+
+    main.c      -- main entry point to the tarc command
+    tarc.h      -- header files of the tarc command, mostly has definitions
+                   exposes tar_it and pad_file functions
+    tarc.c      -- contains tarring functions and helper functions
+
+Notes:
+  Was tested to handle cases of directories, files, symlinks, and hidden files.
+  Will also handle invalid command line inputs and and will error out if file 
+  permissions do not allow for reading.
